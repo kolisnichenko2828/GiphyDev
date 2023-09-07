@@ -6,6 +6,8 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.example.giphydev.R
 import com.example.giphydev.app.App
 import com.example.giphydev.databinding.ActivityMainBinding
@@ -14,6 +16,7 @@ import javax.inject.Inject
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     @Inject lateinit var vmFactory: MainViewModelFactory
     private val vm: MainViewModel by viewModels { App.appComponent.getMainViewModelFactory() }
@@ -25,13 +28,13 @@ class MainActivity : AppCompatActivity() {
 
         disableCrashApp()
         initDaggerInject()
-        showFragment(R.id.fragment_holder, ListGifsFragment())
+        initNavController()
 
         vm.liveDataFragment.observe(this) {
             if(it == "ListGifsFragment"){
-                showFragment(R.id.fragment_holder, ListGifsFragment())
+                navController.navigate(R.id.action_singleGifFragment_to_listGifsFragment)
             } else if (it == "SingleGifFragment") {
-                showFragment(R.id.fragment_holder, SingleGifFragment())
+                navController.navigate(R.id.action_listGifsFragment_to_singleGifFragment)
             }
         }
     }
@@ -56,14 +59,11 @@ class MainActivity : AppCompatActivity() {
         exitProcess(0)
     }
 
-    private fun showFragment(id: Int, f: Fragment) {
-        supportFragmentManager
-            .beginTransaction()
-            .replace(id, f)
-            .commit()
-    }
-
     private fun initDaggerInject() {
         App.appComponent.injectMainActivity(this)
+    }
+
+    private fun initNavController() {
+        navController = Navigation.findNavController(this, R.id.nav_host)
     }
 }

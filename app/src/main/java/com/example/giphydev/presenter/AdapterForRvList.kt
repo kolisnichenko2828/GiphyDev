@@ -10,11 +10,14 @@ import com.example.giphydev.R
 import com.example.giphydev.databinding.LayoutRvListBinding
 import com.example.giphydev.domain.models.Gifs
 
-class AdapterForRvList(private val context: Context,
-                       private val vm: MainViewModel): RecyclerView.Adapter<AdapterForRvList.ViewHolderForRecyclerView>() {
+class AdapterForRvList(
+    private val context: Context,
+    private val vm: MainViewModel
+    ): RecyclerView.Adapter<AdapterForRvList.ViewHolderForRecyclerView>() {
     private var gifs: Gifs = Gifs (MutableList(25) { "" })
 
-    class ViewHolderForRecyclerView(val binding: LayoutRvListBinding): RecyclerView.ViewHolder(binding.root)
+    class ViewHolderForRecyclerView(
+        val binding: LayoutRvListBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderForRecyclerView {
         val inflater = LayoutInflater.from(parent.context)
@@ -37,7 +40,6 @@ class AdapterForRvList(private val context: Context,
             imageView.setOnClickListener() {
                 vm.position = position
                 vm.changeFragmentTo("SingleGifFragment")
-                vm.changeFragmentTo("Default")
             }
         }
     }

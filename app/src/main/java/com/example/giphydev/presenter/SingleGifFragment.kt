@@ -30,7 +30,9 @@ class SingleGifFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onStart() {
+        super.onStart()
+
         Glide.with(context)
             .load(vm.liveDataGiphy.value?.url?.get(vm.position))
             .error(R.drawable.ic_launcher_background)
