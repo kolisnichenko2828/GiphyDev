@@ -3,6 +3,7 @@ package com.example.giphydev.presenter
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.giphydev.R
@@ -14,8 +15,8 @@ import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var vm: MainViewModel
     @Inject lateinit var vmFactory: MainViewModelFactory
+    private val vm: MainViewModel by viewModels { App.appComponent.getMainViewModelFactory() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,14 +25,13 @@ class MainActivity : AppCompatActivity() {
 
         disableCrashApp()
         initDaggerInject()
-        initMainViewModel()
-        showFragment(R.id.fragment_holder, ListGifsFragment(vm = vm))
+        showFragment(R.id.fragment_holder, ListGifsFragment())
 
         vm.liveDataFragment.observe(this) {
             if(it == "ListGifsFragment"){
-                showFragment(R.id.fragment_holder, ListGifsFragment(vm = vm))
+                showFragment(R.id.fragment_holder, ListGifsFragment())
             } else if (it == "SingleGifFragment") {
-                showFragment(R.id.fragment_holder, SingleGifFragment(vm = vm))
+                showFragment(R.id.fragment_holder, SingleGifFragment())
             }
         }
     }
@@ -64,11 +64,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initDaggerInject() {
-        (applicationContext as App).appComponent.injectMainActivity(this)
+        App.appComponent.injectMainActivity(this)
     }
-
-    private fun initMainViewModel() {
-        vm = ViewModelProvider(this, vmFactory).get(MainViewModel::class.java)
-    }
-
 }

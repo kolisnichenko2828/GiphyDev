@@ -6,16 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.example.giphydev.app.App
 import com.example.giphydev.databinding.FragmentListGifsBinding
+import com.example.giphydev.di.MainViewModelFactory
 import com.example.giphydev.domain.models.Gifs
 
-class ListGifsFragment(val vm: MainViewModel) : Fragment() {
+class ListGifsFragment : Fragment() {
     private lateinit var binding: FragmentListGifsBinding
     private lateinit var context: Context
     private lateinit var adapter: AdapterForRvList
     private lateinit var recyclerview: RecyclerView
+    private val vm: MainViewModel by activityViewModels()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -31,7 +37,6 @@ class ListGifsFragment(val vm: MainViewModel) : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         initRecyclerView()
         vm.get(q = "hello")
 
@@ -43,7 +48,6 @@ class ListGifsFragment(val vm: MainViewModel) : Fragment() {
             adapter.setGifs(list = it)
         }
     }
-
     private fun initRecyclerView() {
         recyclerview = binding.rvList
         adapter = AdapterForRvList(context = context, vm = vm)
