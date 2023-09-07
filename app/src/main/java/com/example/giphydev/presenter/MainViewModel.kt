@@ -10,6 +10,8 @@ import kotlinx.coroutines.runBlocking
 class MainViewModel(val getGifsUsecase: GetGifsUsecase): ViewModel() {
     val liveDataGiphy = MutableLiveData<Gifs>()
     val liveDataFragment = MutableLiveData<String>()
+    var lastSearch = "hello"
+    var lastPosition = 0
     var position: Int = 0
 
     fun get(q: String) {

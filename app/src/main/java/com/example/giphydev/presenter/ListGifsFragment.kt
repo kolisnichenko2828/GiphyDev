@@ -40,10 +40,12 @@ class ListGifsFragment : Fragment() {
         super.onStart()
 
         initRecyclerView()
-        vm.get(q = "hello")
+        vm.get(q = vm.lastSearch)
+        scrollToLastPosition()
 
         binding.buttonSearch.setOnClickListener() {
-            vm.get(q = binding.textInput.text.toString())
+            vm.lastSearch = binding.textInput.text.toString()
+            vm.get(q = vm.lastSearch)
         }
 
         vm.liveDataGiphy.observe(activity as LifecycleOwner) {
@@ -55,4 +57,11 @@ class ListGifsFragment : Fragment() {
         adapter = AdapterForRvList(context = context, vm = vm)
         recyclerview.adapter = adapter
     }
+
+    private fun scrollToLastPosition() {
+        recyclerview.postDelayed({
+            recyclerview.scrollToPosition(vm.lastPosition)
+        }, 100)
+    }
+
 }

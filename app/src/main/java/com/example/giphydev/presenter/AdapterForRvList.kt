@@ -38,6 +38,7 @@ class AdapterForRvList(
                 .into(imageView)
 
             imageView.setOnClickListener() {
+                vm.lastPosition = position
                 vm.position = position
                 vm.changeFragmentTo("SingleGifFragment")
             }
