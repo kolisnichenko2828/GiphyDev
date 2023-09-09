@@ -15,9 +15,7 @@ class MainViewModel(val getGifsUsecase: GetGifsUsecase): ViewModel() {
     var position: Int = 0
 
     fun get(q: String) {
-        runBlocking {
-            liveDataGiphy.value = getGifsUsecase.execute(q)
-        }
+        liveDataGiphy.value = getGifsUsecase.execute(q)
     }
 
     fun changeFragmentTo(fragment: String) {
