@@ -4,5 +4,5 @@ import com.example.giphydev.domain.models.Gifs
 
 interface GiphyRepository {
 
-    fun getGifs(q: String): Gifs
+    suspend fun getGifs(q: String): Gifs
 }

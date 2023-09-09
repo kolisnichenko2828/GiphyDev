@@ -12,18 +12,16 @@ class GiphyRepositoryImpl(val giphyApi: GiphyApi): GiphyRepository {
     private var rating: String = "g"
     private var lang: String = "en"
 
-    override fun getGifs(q: String): Gifs {
-        val gifsDetail: GifsDetail
-        runBlocking{
-            gifsDetail = giphyApi.getGifs(
+    override suspend fun getGifs(q: String): Gifs {
+        val gifsDetail = giphyApi.getGifs(
                 q = q,
                 api_key = api_key,
                 aqi = aqi,
                 offset = offset,
                 rating = rating,
                 lang = lang)
-        }
         val gifs = gifsDetail.gifsDetailtoGifs()
+
         return gifs
     }
 }

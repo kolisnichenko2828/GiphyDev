@@ -17,7 +17,6 @@ class DataModule {
     @Provides
     fun provideGiphyApi(): GiphyApi {
         val okHttpClient = OkHttpClient.Builder()
-            .callTimeout(2, TimeUnit.MINUTES)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)

@@ -34,7 +34,7 @@ class SingleGifFragment : Fragment() {
         super.onStart()
 
         Glide.with(context)
-            .load(vm.liveDataGiphy.value?.url?.get(vm.position))
+            .load(vm.liveDataGiphy.value?.url?.get(vm.lastPosition))
             .error(R.drawable.ic_launcher_background)
             .placeholder(R.drawable.ic_launcher_foreground)
             .into(binding.imageView)
