@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class MainViewModel(val getGifsUsecase: GetGifsUsecase) : ViewModel() {
-
     val liveDataGifs = MutableLiveData<Gifs>()
 
     fun getGifs(q: String) {

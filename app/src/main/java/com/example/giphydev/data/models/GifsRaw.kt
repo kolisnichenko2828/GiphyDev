@@ -9,6 +9,7 @@ data class DownsizedLarge(val url: String)
 data class GifsRaw(val `data`: List<Data>) {
     fun gifsRawToGifs(): Gifs {
         val urls = data.map { it.images.downsized_large.url }
+
         return Gifs(urls)
     }
 }

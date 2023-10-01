@@ -6,6 +6,6 @@ import com.example.giphydev.di.DaggerAppComponent
 
 class App: Application() {
     companion object {
-        val appComponent = DaggerAppComponent.create()
+        val appComponent: AppComponent = DaggerAppComponent.create()
     }
 }

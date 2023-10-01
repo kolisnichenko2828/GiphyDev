@@ -26,7 +26,7 @@ class ErrorActivity : AppCompatActivity() {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip = ClipData.newPlainText("label", binding.errorTextView.text)
             clipboard.setPrimaryClip(clip)
-            Toast.makeText(this, "Текст скопирован", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Text copied", Toast.LENGTH_SHORT).show()
             true
         }
     }
