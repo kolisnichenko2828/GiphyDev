@@ -6,20 +6,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.giphydev.domain.models.Gifs
 import com.example.giphydev.domain.usecases.GetGifsUsecase
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
-class MainViewModel(val getGifsUsecase: GetGifsUsecase): ViewModel() {
-    val liveDataGiphy = MutableLiveData<Gifs>()
-    val liveDataFragment = MutableLiveData<String>()
-    var lastSearch = "hello"
-    var lastPosition = 0
+class MainViewModel(val getGifsUsecase: GetGifsUsecase) : ViewModel() {
 
-    fun get(q: String) {
+    val liveDataGifs = MutableLiveData<Gifs>()
+
+    fun getGifs(q: String) {
         viewModelScope.launch {
-            liveDataGiphy.value = getGifsUsecase.execute(q)
+            liveDataGifs.value = getGifsUsecase.execute(q)
         }
-    }
-
-    fun changeFragmentTo(fragment: String) {
-        liveDataFragment.value = fragment
     }
 }

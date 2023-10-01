@@ -7,7 +7,6 @@ import dagger.Provides
 
 @Module
 class DomainModule {
-
     @Provides
     fun provideGetGifsUsecase(giphyRepository: GiphyRepository): GetGifsUsecase {
         return GetGifsUsecase(giphyRepository)

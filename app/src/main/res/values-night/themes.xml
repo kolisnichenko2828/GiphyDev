@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="MyAppTheme" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Status bar color -->
@@ -36,6 +37,6 @@
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
         <!-- apply styles -->
-        <item name="materialButtonStyle">@style/Widget.Weather.Button</item>
+        <item name="materialButtonStyle">@style/Widget.Giphy.Button</item>
     </style>
 </resources>

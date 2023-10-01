@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Widget.Weather.Button" parent="Widget.Material3.Button.OutlinedButton">
+    <style name="Widget.Giphy.Button" parent="Widget.Material3.Button.OutlinedButton">
         <item name="android:backgroundTint">?attr/colorSurface</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
         <item name="android:elevation">8dp</item>

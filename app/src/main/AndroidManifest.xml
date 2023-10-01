@@ -16,6 +16,9 @@
         android:theme="@style/MyAppTheme"
         tools:targetApi="33">
         <activity
+            android:name=".presenter.FullscreenGifActivity"
+            android:exported="false" />
+        <activity
             android:name=".presenter.ErrorActivity"
             android:exported="false" />
         <activity

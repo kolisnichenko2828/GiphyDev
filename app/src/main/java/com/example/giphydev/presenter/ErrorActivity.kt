@@ -1,8 +1,11 @@
 package com.example.giphydev.presenter
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.giphydev.R
+import android.widget.Toast
 import com.example.giphydev.databinding.ActivityErrorBinding
 
 class ErrorActivity : AppCompatActivity() {
@@ -18,5 +21,13 @@ class ErrorActivity : AppCompatActivity() {
         val stackTrace = intent.getStringExtra("stackTrace").toString()
 
         binding.errorTextView.text = "Message: ${message}\n\nCause: ${cause}\n\nStacktrace: ${stackTrace}"
+
+        binding.errorTextView.setOnLongClickListener {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("label", binding.errorTextView.text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(this, "Текст скопирован", Toast.LENGTH_SHORT).show()
+            true
+        }
     }
 }

@@ -1,51 +1,59 @@
 package com.example.giphydev.presenter
 
-import android.content.Context
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.giphydev.R
 import com.example.giphydev.databinding.LayoutRvListBinding
 import com.example.giphydev.domain.models.Gifs
 
-class AdapterForRvList(
-    private val context: Context,
-    private val vm: MainViewModel
-    ): RecyclerView.Adapter<AdapterForRvList.ViewHolderForRecyclerView>() {
-    private var gifs: Gifs = Gifs (MutableList(25) { "" })
+class GifsAdapter(
+    private val listener: OnItemClickListener,
+) : ListAdapter<String, GifsAdapter.ItemHolder>(ItemComparator()) {
 
-    class ViewHolderForRecyclerView(
-        val binding: LayoutRvListBinding): RecyclerView.ViewHolder(binding.root)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderForRecyclerView {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = LayoutRvListBinding.inflate(inflater, parent, false)
-        return ViewHolderForRecyclerView(binding)
-    }
-
-    override fun getItemCount(): Int {
-        return gifs.url.size
-    }
-
-    override fun onBindViewHolder(holder: ViewHolderForRecyclerView, position: Int) {
-        with(holder.binding) {
-            Glide.with(context)
-                .load(gifs.url[position])
+    class ItemHolder(
+        private val binding: LayoutRvListBinding,
+    ) : RecyclerView.ViewHolder(binding.root){
+        fun bind(url: String, listener: OnItemClickListener) {
+            Glide.with(itemView.context)
+                .load(url)
                 .error(R.drawable.ic_launcher_background)
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .into(imageView)
+                .into(binding.imageView)
 
-            imageView.setOnClickListener() {
-                vm.lastPosition = position
-                vm.changeFragmentTo("SingleGifFragment")
+            binding.imageView.setOnClickListener() {
+                listener.onItemClick(url)
+            }
+        }
+
+        companion object {
+            fun create(parent: ViewGroup): ItemHolder {
+                return ItemHolder(LayoutRvListBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false))
             }
         }
     }
 
-    fun setGifs(list: Gifs) {
-        gifs = list
-        notifyDataSetChanged()
+    class ItemComparator : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem == newItem
+        }
+
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem == newItem
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
+        return ItemHolder.create(parent)
+    }
+
+    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
+        holder.bind(url = getItem(position), listener = listener)
     }
 }

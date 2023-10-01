@@ -1,25 +1,28 @@
 package com.example.giphydev.presenter
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.giphydev.R
 import com.example.giphydev.app.App
 import com.example.giphydev.databinding.ActivityMainBinding
 import com.example.giphydev.di.MainViewModelFactory
+import com.example.giphydev.domain.models.Gifs
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
+class MainActivity : AppCompatActivity(), OnItemClickListener {
     private lateinit var binding: ActivityMainBinding
     @Inject lateinit var vmFactory: MainViewModelFactory
     private val vm: MainViewModel by viewModels { App.appComponent.getMainViewModelFactory() }
+    private lateinit var recyclerview: RecyclerView
+    private lateinit var adapter: GifsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         disableCrashApp()
         initDaggerInject()
-        initNavController()
+        initRecyclerView()
 
-        vm.liveDataFragment.observe(this) {
-            if(it == "ListGifsFragment"){
-                navController.navigate(R.id.action_singleGifFragment_to_listGifsFragment)
-            } else if (it == "SingleGifFragment") {
-                navController.navigate(R.id.action_listGifsFragment_to_singleGifFragment)
-            }
+        binding.buttonSearch.setOnClickListener() {
+            vm.getGifs(q = binding.textInput.text.toString())
+        }
+
+        vm.liveDataGifs.observe(this) {
+            adapter.submitList((vm.liveDataGifs.value as Gifs).listOfUrls)
         }
     }
 
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         intent.putExtra("message", appError.message.toString())
         intent.putExtra("cause", appError.cause.toString())
-        intent.putExtra("stackTrace", appError.stackTrace.toString())
+        intent.putExtra("stackTrace", appError.stackTraceToString())
         startActivity(intent)
         android.os.Process.killProcess(android.os.Process.myPid())
         exitProcess(0)
@@ -63,7 +66,17 @@ class MainActivity : AppCompatActivity() {
         App.appComponent.injectMainActivity(this)
     }
 
-    private fun initNavController() {
-        navController = Navigation.findNavController(this, R.id.nav_host)
+    private fun initRecyclerView() {
+        vm.getGifs(q = "hello")
+
+        recyclerview = binding.rvList
+        adapter = GifsAdapter(listener = this)
+        recyclerview.adapter = adapter
+    }
+
+    override fun onItemClick(url: String) {
+        val intent = Intent(this, FullscreenGifActivity::class.java)
+        intent.putExtra("url", url)
+        startActivity(intent)
     }
 }
