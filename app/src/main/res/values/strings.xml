@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">GiphyDev</string>
-    <string name="search">search</string>
+    <string name="search_hint">search</string>
+    <string name="search_button_text">search</string>
 </resources>

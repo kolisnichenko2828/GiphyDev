@@ -4,16 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giphydev.R
 import com.example.giphydev.app.App
 import com.example.giphydev.databinding.ActivityMainBinding
 import com.example.giphydev.di.MainViewModelFactory
 import com.example.giphydev.domain.models.Gifs
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -32,8 +27,9 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
         disableCrashApp()
         initDaggerInject()
         initRecyclerView()
+        vm.getGifs(q = "hello")
 
-        binding.buttonSearch.setOnClickListener() {
+        binding.buttonSearch.setOnClickListener {
             vm.getGifs(q = binding.textInput.text.toString())
         }
 
@@ -67,8 +63,6 @@ class MainActivity : AppCompatActivity(), OnItemClickListener {
     }
 
     private fun initRecyclerView() {
-        vm.getGifs(q = "hello")
-
         recyclerview = binding.rvList
         adapter = GifsAdapter(listener = this)
         recyclerview.adapter = adapter
