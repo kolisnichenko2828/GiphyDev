@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.giphydev.R
 import com.example.giphydev.databinding.LayoutRvListBinding
-import com.example.giphydev.domain.models.Gifs
 
 class GifsAdapter(
     private val listener: OnItemClickListener,
