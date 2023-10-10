@@ -27,6 +27,7 @@
         android:id="@+id/buttonSearch"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:elevation="8dp"
         android:text="@string/search_button_text"
         android:textSize="14sp"
         app:cornerRadius="4dp"
