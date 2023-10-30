@@ -8,7 +8,7 @@ Images are uploaded in one way:
 - Searched gif images
 
 ## Libraries and features that were used in the project
-- kotlin dsl
+- groovy
 - recyclerview, listadapter
 - dagger 2
 - mvvm pattern
